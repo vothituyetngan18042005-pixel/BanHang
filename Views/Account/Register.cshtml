@@ -1,0 +1,715 @@
+﻿@model BanHang.Models.Account
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ZôTreeStore - Đăng ký</title>
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+          rel='stylesheet'>
+
+    <style>
+
+        :root {
+            --primary-blue: #0063a7;
+            --bg-blue: #f0f5ff;
+            --text-main: #333;
+            --text-gray: #666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1100px;
+            min-height: 700px;
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        /* LEFT */
+
+        .left-panel {
+            width: 42%;
+            background: var(--bg-blue);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+
+        .slogan {
+            font-size: 26px;
+            line-height: 1.4;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 50px;
+        }
+
+        .info-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+            .info-card i {
+                font-size: 28px;
+                color: var(--primary-blue);
+            }
+
+            .info-card strong {
+                display: block;
+                margin-bottom: 3px;
+                color: var(--text-main);
+            }
+
+            .info-card p {
+                font-size: 13px;
+                color: var(--text-gray);
+            }
+
+        /* RIGHT */
+
+        .right-panel {
+            width: 58%;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h2 {
+            font-size: 30px;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .desc {
+            color: var(--text-gray);
+            margin-bottom: 35px;
+            font-size: 15px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .field-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-main);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+            .input-wrapper i {
+                position: absolute;
+                left: 18px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #999;
+                font-size: 18px;
+            }
+
+        .toggle-password {
+            left: auto !important;
+            right: 18px;
+            cursor: pointer;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 50px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            background: #f8f9fa;
+            outline: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+            .form-input:focus {
+                border-color: var(--primary-blue);
+                background: #fff;
+                box-shadow: 0 0 0 4px rgba(0,99,167,0.05);
+            }
+
+        .btn-register {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            background: var(--primary-blue);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+            .btn-register:hover {
+                background: #004d84;
+            }
+
+        .social-login {
+            margin-top: 35px;
+            text-align: center;
+            position: relative;
+        }
+
+            .social-login::before {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 1px;
+                background: #eee;
+                left: 0;
+                top: 10px;
+            }
+
+            .social-login span {
+                position: relative;
+                background: #fff;
+                padding: 0 15px;
+                color: #999;
+                font-size: 12px;
+                text-transform: uppercase;
+            }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            flex: 1;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 12px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+            .social-btn:hover {
+                background: #f8f9fa;
+            }
+
+        .text-danger {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .validation-summary-errors {
+            background: #ffe5e5;
+            color: #dc3545;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .validation-summary-valid {
+            display: none;
+        }
+
+        .footer-login {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+            .footer-login a {
+                color: var(--primary-blue);
+                font-weight: 700;
+                text-decoration: none;
+            }
+
+                .footer-login a:hover {
+                    text-decoration: underline;
+                }
+
+        .checkbox-row {
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--text-gray);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .checkbox-row a {
+                color: var(--primary-blue);
+                text-decoration: none;
+            }
+
+        @@media (max-width: 900px) {
+
+            .main-container {
+                flex-direction: column;
+            }
+
+            .left-panel,
+            .right-panel {
+                width: 100%;
+                padding: 40px 30px;
+            }
+
+            .slogan {
+                font-size: 22px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+
+            .social-buttons {
+                flex-direction: column;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <!-- LEFT -->
+
+        <div class="left-panel">
+
+            <a href="/" class="logo">
+                ZôTreeStore
+            </a>
+
+            <div class="slogan">
+                Khám phá thế giới công nghệ với sự tĩnh lặng và hiệu năng tối ưu
+            </div>
+
+            <div class="info-card">
+
+                <i class='bx bx-shield-quarter'></i>
+
+                <div>
+                    <strong>Bảo mật 2 lớp</strong>
+                    <p>Hệ thống xác thực mã hóa đầu cuối tiên tiến.</p>
+                </div>
+
+            </div>
+
+            <div class="info-card">
+
+                <i class='bx bx-support'></i>
+
+                <div>
+                    <strong>Hỗ trợ 24/7</strong>
+                    <p>Luôn sẵn sàng giải đáp mọi thắc mắc của bạn.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="right-panel">
+
+            <h2>Tạo tài khoản mới</h2>
+
+            <p class="desc">
+                Cung cấp thông tin bên dưới để bắt đầu hành trình cùng ZôTreeStore.
+            </p>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="validation-summary-errors">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <form asp-controller="Account"
+                  asp-action="Register"
+                  method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="validation-summary-errors">
+                </div>
+
+                <div class="form-grid">
+
+                    <!-- FULLNAME -->
+
+                    <div>
+
+                        <label class="field-label">Họ tên</label>
+
+                        <div class="input-wrapper">
+
+                            <i class='bx bx-user'></i>
+
+                            <input asp-for="FullName"
+                                   class="form-input"
+                                   placeholder="Nguyễn Văn A" />
+
+                        </div>
+
+                        <span asp-validation-for="FullName"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- USERNAME -->
+
+                    <div>
+
+                        <label class="field-label">Username</label>
+
+                        <div class="input-wrapper">
+
+                            <i class='bx bx-user-circle'></i>
+
+                            <input asp-for="Username"
+                                   class="form-input"
+                                   placeholder="zotree_user" />
+
+                        </div>
+
+                        <span asp-validation-for="Username"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- PHONE -->
+
+                    <div>
+
+                        <label class="field-label">Số điện thoại</label>
+
+                        <div class="input-wrapper">
+
+                            <i class='bx bx-phone'></i>
+
+                            <input asp-for="Phone"
+                                   class="form-input"
+                                   placeholder="0901234567" />
+
+                        </div>
+
+                        <span asp-validation-for="Phone"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- BIRTHDATE -->
+
+                    <div>
+
+                        <label class="field-label">Ngày sinh</label>
+
+                        <div class="input-wrapper">
+
+                            <i class='bx bx-calendar'></i>
+
+                            <input asp-for="BirthDate"
+                                   type="date"
+                                   class="form-input"
+                                   style="padding-left:50px;" />
+
+                        </div>
+
+                        <span asp-validation-for="BirthDate"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- EMAIL -->
+
+                    <div class="full-width">
+
+                        <label class="field-label">Email</label>
+
+                        <div class="input-wrapper">
+
+                            <i class='bx bx-envelope'></i>
+
+                            <input asp-for="Email"
+                                   type="email"
+                                   class="form-input"
+                                   placeholder="email@example.com" />
+
+                        </div>
+
+                        <span asp-validation-for="Email"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- PASSWORD -->
+
+                    <div class="full-width">
+
+                        <label class="field-label">Mật khẩu</label>
+
+                        <div class="input-wrapper">
+
+                            <i class='bx bx-lock-alt'></i>
+
+                            <input asp-for="Password"
+                                   type="password"
+                                   id="password"
+                                   class="form-input"
+                                   placeholder="Nhập mật khẩu" />
+
+                            <i class='bx bx-hide toggle-password'
+                               id="togglePassword"></i>
+
+                        </div>
+
+                        <span asp-validation-for="Password"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <!-- CONFIRM PASSWORD -->
+
+                    <div class="full-width">
+
+                        <label class="field-label">
+                            Nhập lại mật khẩu
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i class='bx bx-lock'></i>
+
+                            <input asp-for="ConfirmPassword"
+                                   type="password"
+                                   id="confirmPassword"
+                                   class="form-input"
+                                   placeholder="Nhập lại mật khẩu" />
+
+                            <i class='bx bx-hide toggle-password'
+                               id="toggleConfirmPassword"></i>
+
+                        </div>
+
+                        <span asp-validation-for="ConfirmPassword"
+                              class="text-danger"></span>
+
+                    </div>
+
+                </div>
+
+                <!-- TERMS -->
+
+                <div class="checkbox-row">
+
+                    <input type="checkbox" required />
+
+                    <span>
+                        Tôi đồng ý với
+                        <a href="#">
+                            Điều khoản dịch vụ
+                        </a>
+                        của ZôTreeStore.
+                    </span>
+
+                </div>
+
+                <!-- BUTTON -->
+
+                <button type="submit"
+                        class="btn-register">
+
+                    Đăng ký ngay
+
+                    <i class='bx bx-right-arrow-alt'></i>
+
+                </button>
+
+            </form>
+
+            <!-- SOCIAL -->
+
+            <div class="social-login">
+
+                <span>Hoặc đăng ký bằng</span>
+
+                <div class="social-buttons">
+
+                    <button type="button"
+                            class="social-btn">
+
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Color_Icon.svg"
+                             width="18" />
+
+                        Google
+
+                    </button>
+
+                    <button type="button"
+                            class="social-btn">
+
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_(2019).png"
+                             width="18" />
+
+                        Facebook
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- LOGIN -->
+
+            <div class="footer-login">
+
+                Bạn đã có tài khoản?
+
+                <a asp-controller="Account"
+                   asp-action="Login">
+
+                    Đăng nhập
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- VALIDATION -->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <!-- SHOW PASSWORD -->
+
+    <script>
+
+        // PASSWORD
+
+        const togglePassword =
+            document.getElementById("togglePassword");
+
+        const password =
+            document.getElementById("password");
+
+        togglePassword.addEventListener("click", function () {
+
+            const type =
+                password.getAttribute("type") === "password"
+                ? "text"
+                : "password";
+
+            password.setAttribute("type", type);
+
+            this.classList.toggle("bx-hide");
+            this.classList.toggle("bx-show");
+
+        });
+
+        // CONFIRM PASSWORD
+
+        const toggleConfirmPassword =
+            document.getElementById("toggleConfirmPassword");
+
+        const confirmPassword =
+            document.getElementById("confirmPassword");
+
+        toggleConfirmPassword.addEventListener("click", function () {
+
+            const type =
+                confirmPassword.getAttribute("type") === "password"
+                ? "text"
+                : "password";
+
+            confirmPassword.setAttribute("type", type);
+
+            this.classList.toggle("bx-hide");
+            this.classList.toggle("bx-show");
+
+        });
+
+    </script>
+
+</body>
+
+</html>

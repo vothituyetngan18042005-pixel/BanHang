@@ -1,0 +1,592 @@
+﻿@model BanHang.Models.Account
+
+@{
+    ViewData["Title"] = "Đăng nhập - ZôTreeStore";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ZôTreeStore - Đăng nhập</title>
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'
+          rel='stylesheet'>
+
+    <style>
+
+        :root {
+            --primary-blue: #0063a7;
+            --bg-blue: #f0f5ff;
+            --text-main: #333;
+            --text-gray: #666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1100px;
+            min-height: 680px;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        /* LEFT */
+
+        .content-left {
+            width: 42%;
+            background: var(--bg-blue);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-logo {
+            font-size: 30px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+            margin-bottom: 40px;
+        }
+
+        .hero-text {
+            font-size: 26px;
+            line-height: 1.5;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 50px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .icon-box i {
+            font-size: 28px;
+            color: var(--primary-blue);
+        }
+
+        .feature-info h4 {
+            font-size: 15px;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        .feature-info p {
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        /* RIGHT */
+
+        .login-right {
+            width: 58%;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h2 {
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .subtitle {
+            color: var(--text-gray);
+            margin-bottom: 25px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 18px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            background: #f8f9fa;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+            .form-control:focus {
+                background: white;
+                border-color: var(--primary-blue);
+                box-shadow: 0 0 0 4px rgba(0,99,167,0.08);
+            }
+
+        .password-box {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 22px;
+            color: #777;
+            cursor: pointer;
+        }
+
+        .remember-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            font-size: 14px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .remember-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-gray);
+        }
+
+            .remember-left input {
+                width: 16px;
+                height: 16px;
+                cursor: pointer;
+            }
+
+        .remember-row a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+            .remember-row a:hover {
+                text-decoration: underline;
+            }
+
+        .btn-login {
+            width: 100%;
+            border: none;
+            background: var(--primary-blue);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .btn-login:hover {
+                background: #004d84;
+                transform: translateY(-1px);
+            }
+
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+            .divider::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 100%;
+                height: 1px;
+                background: #eee;
+            }
+
+            .divider span {
+                position: relative;
+                background: white;
+                padding: 0 15px;
+                font-size: 12px;
+                color: #999;
+                text-transform: uppercase;
+            }
+
+        .social-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-social {
+            flex: 1;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+            .btn-social:hover {
+                background: #f5f5f5;
+            }
+
+        .footer-link {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+            .footer-link a {
+                color: var(--primary-blue);
+                font-weight: 700;
+                text-decoration: none;
+            }
+
+                .footer-link a:hover {
+                    text-decoration: underline;
+                }
+
+        .text-danger {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .validation-summary-errors {
+            background: #ffe5e5;
+            color: #dc3545;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .validation-summary-valid {
+            display: none;
+        }
+
+        @@media (max-width: 900px) {
+
+            .main-container {
+                flex-direction: column;
+            }
+
+            .content-left,
+            .login-right {
+                width: 100%;
+                padding: 40px 30px;
+            }
+
+            .hero-text {
+                font-size: 22px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .social-group {
+                flex-direction: column;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <!-- LEFT -->
+
+        <div class="content-left">
+
+            <a href="/" class="brand-logo">
+                ZôTreeStore
+            </a>
+
+            <h1 class="hero-text">
+                Khám phá thế giới công nghệ với sự tĩnh lặng và hiệu năng tối ưu
+            </h1>
+
+            <div class="feature-card">
+
+                <div class="icon-box">
+                    <i class='bx bx-shield-quarter'></i>
+                </div>
+
+                <div class="feature-info">
+                    <h4>Bảo mật 2 lớp</h4>
+                    <p>Hệ thống xác thực mã hóa đầu cuối tiên tiến.</p>
+                </div>
+
+            </div>
+
+            <div class="feature-card">
+
+                <div class="icon-box">
+                    <i class='bx bx-support'></i>
+                </div>
+
+                <div class="feature-info">
+                    <h4>Hỗ trợ 24/7</h4>
+                    <p>Luôn sẵn sàng giải đáp mọi thắc mắc của bạn.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="login-right">
+
+            <h2>Chào mừng trở lại</h2>
+
+            <p class="subtitle">
+                Đăng nhập để quản lý đơn hàng và nhận ưu đãi riêng cho bạn.
+            </p>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="validation-summary-errors">
+                    @ViewBag.Error
+                </div>
+            }
+
+            @if (TempData["Success"] != null)
+            {
+                <div style="
+                        background:#d4edda;
+                        color:#155724;
+                        padding:14px;
+                        border-radius:12px;
+                        margin-bottom:20px;
+                        font-size:14px;">
+
+                    @TempData["Success"]
+
+                </div>
+            }
+
+            <form asp-controller="Account"
+                  asp-action="Login"
+                  method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger">
+                </div>
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label>Email hoặc Username</label>
+
+                    <input asp-for="Username"
+                           class="form-control"
+                           placeholder="Nhập username hoặc email"
+                           required />
+
+                    <span asp-validation-for="Username"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label>Mật khẩu</label>
+
+                    <div class="password-box">
+
+                        <input asp-for="Password"
+                               type="password"
+                               class="form-control"
+                               id="password"
+                               placeholder="••••••••"
+                               required />
+
+                        <i class='bx bx-hide toggle-password'
+                           id="togglePassword">
+                        </i>
+
+                    </div>
+
+                    <span asp-validation-for="Password"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <!-- REMEMBER -->
+
+                <div class="remember-row">
+
+                    <div class="remember-left">
+
+                        <input type="checkbox"
+                               asp-for="RememberMe"
+                               id="remember">
+
+                        <label for="remember">
+                            Ghi nhớ đăng nhập
+                        </label>
+
+                    </div>
+
+                    <a asp-controller="Account"
+                       asp-action="ForgotPassword">
+
+                        Quên mật khẩu?
+
+                    </a>
+
+                </div>
+
+                <!-- BUTTON -->
+
+                <button type="submit"
+                        class="btn-login">
+
+                    Đăng nhập
+
+                </button>
+
+                <!-- DIVIDER -->
+
+                <div class="divider">
+                    <span>Hoặc tiếp tục với</span>
+                </div>
+
+                <!-- SOCIAL -->
+
+                <div class="social-group">
+
+                    <a href="#"
+                       class="btn-social">
+
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Color_Icon.svg"
+                             width="18" />
+
+                        Google
+
+                    </a>
+
+                    <a href="#"
+                       class="btn-social">
+
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_(2019).png"
+                             width="18" />
+
+                        Facebook
+
+                    </a>
+
+                </div>
+
+                <!-- REGISTER -->
+
+                <p class="footer-link">
+
+                    Chưa có tài khoản?
+
+                    <a asp-controller="Account"
+                       asp-action="Register">
+
+                        Đăng ký ngay
+
+                    </a>
+
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- VALIDATION -->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <!-- SHOW / HIDE PASSWORD -->
+
+    <script>
+
+        const togglePassword =
+            document.getElementById("togglePassword");
+
+        const password =
+            document.getElementById("password");
+
+        togglePassword.addEventListener("click", function () {
+
+            const type =
+                password.getAttribute("type") === "password"
+                ? "text"
+                : "password";
+
+            password.setAttribute("type", type);
+
+            this.classList.toggle("bx-hide");
+            this.classList.toggle("bx-show");
+
+        });
+
+    </script>
+
+</body>
+
+</html>

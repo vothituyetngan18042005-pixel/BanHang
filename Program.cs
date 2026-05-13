@@ -1,29 +1,91 @@
+﻿using BanHang.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//
+// ================= DATABASE =================
+//
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//
+// ================= MVC =================
+//
+
 builder.Services.AddControllersWithViews();
+
+//
+// ================= COOKIE AUTH =================
+//
+
+builder.Services.AddAuthentication(
+    CookieAuthenticationDefaults.AuthenticationScheme)
+
+    .AddCookie(options =>
+    {
+        // Trang login
+        options.LoginPath = "/Account/Login";
+
+        // Trang bị từ chối quyền
+        options.AccessDeniedPath = "/Account/AccessDenied";
+
+        // Thời gian sống cookie
+        options.ExpireTimeSpan = TimeSpan.FromDays(30);
+
+        // Tự gia hạn cookie khi còn hoạt động
+        options.SlidingExpiration = true;
+
+        // Tên cookie
+        options.Cookie.Name = "ZoTreeStore_Auth_Cookie";
+
+        // Chống truy cập JS
+        options.Cookie.HttpOnly = true;
+
+        // HTTPS only
+        options.Cookie.SecurePolicy =
+            CookieSecurePolicy.SameAsRequest;
+    });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+//
+// ================= ERROR =================
+//
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
+//
+// ================= MIDDLEWARE =================
+//
+
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
 app.UseRouting();
+
+//
+// QUAN TRỌNG
+//
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
+//
+// ================= ROUTE =================
+//
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
