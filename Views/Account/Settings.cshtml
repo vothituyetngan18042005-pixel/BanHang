@@ -1,0 +1,311 @@
+﻿@using System.Security.Claims
+@model BanHang.Models.Account
+@{
+    ViewData["Title"] = "Cài đặt";
+}
+
+<section class="container mx-auto px-6 py-12">
+
+    <div class="flex flex-col lg:flex-row gap-8">
+
+        <!-- SIDEBAR -->
+        <aside class="w-full lg:w-[280px]">
+
+            <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-6">
+
+                <!-- AVATAR -->
+                <div class="flex flex-col items-center text-center">
+
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-pink-400 to-blue-500 flex items-center justify-center text-white text-4xl font-bold shadow-lg">
+
+                        @{
+                            var name = User.Identity?.Name ?? "";
+                            var firstChar = !string.IsNullOrEmpty(name) ? name.Substring(0, 1).ToUpper() : "?";
+                        }
+
+                        @firstChar
+
+                    </div>
+
+                    <h2 class="mt-5 text-lg font-extrabold text-slate-800">
+
+                        @(Model?.FullName ?? User.Identity?.Name ?? "Khách hàng")
+
+                    </h2>
+
+                    <p class="text-sm text-slate-400 mt-1">
+                        Thành viên ZôTreeStore
+                    </p>
+
+                </div>
+
+                <!-- MENU -->
+                <div class="mt-8 space-y-2">
+
+                    <a href="/Account/Settings"
+                       class="flex items-center gap-3 bg-pink-50 text-pink-600 font-bold px-4 py-3 rounded-2xl text-sm">
+                        <span>👤</span>
+                        <span>Hồ sơ cá nhân</span>
+                    </a>
+
+                    <a href="#"
+                       class="flex items-center gap-3 text-slate-500 hover:bg-gray-50 px-4 py-3 rounded-2xl text-sm transition">
+                        <span>📦</span>
+                        <span>Lịch sử đơn hàng</span>
+                    </a>
+
+                    <a href="#"
+                       class="flex items-center gap-3 text-slate-500 hover:bg-gray-50 px-4 py-3 rounded-2xl text-sm transition">
+                        <span>❤️</span>
+                        <span>Sản phẩm yêu thích</span>
+                    </a>
+
+                    <a href="#"
+                       class="flex items-center gap-3 text-slate-500 hover:bg-gray-50 px-4 py-3 rounded-2xl text-sm transition">
+                        <span>🔔</span>
+                        <span>Thông báo</span>
+                    </a>
+
+                    <a href="/Account/Logout"
+                       class="flex items-center gap-3 text-red-500 hover:bg-red-50 px-4 py-3 rounded-2xl text-sm transition">
+                        <span>🚪</span>
+                        <span>Đăng xuất</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- MAIN -->
+        <div class="flex-1 space-y-8">
+
+            <!-- HEADER -->
+            <div>
+
+                <h1 class="text-3xl font-black text-slate-900">
+                    Hồ sơ cá nhân
+                </h1>
+
+                <p class="text-slate-400 text-sm mt-2">
+                    Quản lý thông tin tài khoản và bảo mật cá nhân
+                </p>
+
+            </div>
+
+            <!-- THÔNG BÁO -->
+            @if (ViewBag.Success != null)
+            {
+                <div class="bg-green-50 text-green-700 px-5 py-4 rounded-2xl text-sm font-semibold">
+                    @ViewBag.Success
+                </div>
+            }
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="bg-red-50 text-red-600 px-5 py-4 rounded-2xl text-sm font-semibold">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <!-- FORM THÔNG TIN CƠ BẢN -->
+            <form asp-controller="Account" asp-action="Settings" method="post" id="profileForm">
+
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Username" />
+
+                <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-8">
+
+                    <div class="flex items-center justify-between mb-10">
+
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-800">
+                                Thông tin cơ bản
+                            </h3>
+                            <p class="text-sm text-slate-400 mt-1">
+                                Thông tin tài khoản của bạn
+                            </p>
+                        </div>
+
+                        <!-- Nút CHỈNH SỬA (hiện mặc định) -->
+                        <div id="viewButtons">
+                            <button type="button" id="btnEdit"
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl text-sm font-semibold transition">
+                                Chỉnh sửa
+                            </button>
+                        </div>
+
+                        <!-- Nút HỦY / LƯU (ẩn mặc định) -->
+                        <div id="editButtons" class="hidden gap-3 flex">
+                            <button type="button" id="btnCancel"
+                                    class="bg-gray-100 hover:bg-gray-200 text-slate-600 px-5 py-2 rounded-xl text-sm font-semibold transition">
+                                Hủy
+                            </button>
+                            <button type="submit"
+                                    class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl text-sm font-semibold transition">
+                                Lưu thay đổi
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                        <!-- FULLNAME -->
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
+                                Họ và tên
+                            </p>
+                            <input asp-for="FullName" disabled
+                                   class="profile-input w-full bg-slate-50 rounded-2xl px-5 py-4 text-sm font-semibold text-slate-700 outline-none border border-transparent focus:border-blue-400 focus:bg-white transition disabled:cursor-not-allowed" />
+                        </div>
+
+                        <!-- USERNAME (không cho sửa) -->
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
+                                Tên tài khoản
+                            </p>
+                            <div class="bg-slate-100 rounded-2xl px-5 py-4 text-sm font-semibold text-slate-500">
+                                @(User.Identity?.Name ?? "Chưa đăng nhập")
+                            </div>
+                        </div>
+
+                        <!-- EMAIL -->
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
+                                Email
+                            </p>
+                            <input asp-for="Email" type="email" disabled
+                                   class="profile-input w-full bg-slate-50 rounded-2xl px-5 py-4 text-sm font-semibold text-slate-700 outline-none border border-transparent focus:border-blue-400 focus:bg-white transition disabled:cursor-not-allowed" />
+                        </div>
+
+                        <!-- PHONE -->
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
+                                Số điện thoại
+                            </p>
+                            <input asp-for="Phone" disabled
+                                   placeholder="Chưa cập nhật"
+                                   class="profile-input w-full bg-slate-50 rounded-2xl px-5 py-4 text-sm font-semibold text-slate-700 outline-none border border-transparent focus:border-blue-400 focus:bg-white transition disabled:cursor-not-allowed" />
+                        </div>
+
+                        <!-- BIRTHDATE -->
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
+                                Ngày sinh
+                            </p>
+                            <input asp-for="BirthDate" type="date" disabled
+                                   class="profile-input w-full bg-slate-50 rounded-2xl px-5 py-4 text-sm font-semibold text-slate-700 outline-none border border-transparent focus:border-blue-400 focus:bg-white transition disabled:cursor-not-allowed" />
+                        </div>
+
+                        <!-- STATUS -->
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
+                                Trạng thái
+                            </p>
+                            <div class="bg-green-50 text-green-600 rounded-2xl px-5 py-4 text-sm font-bold">
+                                Đang hoạt động
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+            <!-- ADDRESS -->
+            <div class="bg-white rounded-[2rem] shadow-sm border border-gray-100 p-8">
+
+                <div class="flex items-center justify-between mb-8">
+
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">
+                            Địa chỉ giao hàng
+                        </h3>
+
+                        <p class="text-sm text-slate-400 mt-1">
+                            Quản lý địa chỉ nhận hàng
+                        </p>
+                    </div>
+
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl text-sm font-semibold transition">
+                        + Thêm mới
+                    </button>
+
+                </div>
+
+                <div class="bg-slate-50 border border-blue-100 rounded-[1.5rem] p-6">
+
+                    <div class="flex items-center gap-3 mb-3">
+
+                        <span class="font-bold text-slate-800">
+                            Địa chỉ mặc định
+                        </span>
+
+                        <span class="bg-blue-600 text-white text-[10px] px-2 py-1 rounded-lg font-bold uppercase">
+                            Default
+                        </span>
+
+                    </div>
+
+                    <p class="text-sm text-slate-500">
+                        Chưa cập nhật địa chỉ giao hàng
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+    const btnEdit = document.getElementById("btnEdit");
+    const btnCancel = document.getElementById("btnCancel");
+    const viewButtons = document.getElementById("viewButtons");
+    const editButtons = document.getElementById("editButtons");
+    const inputs = document.querySelectorAll(".profile-input");
+
+    // Lưu giá trị gốc để khi bấm "Hủy" thì khôi phục lại
+    let originalValues = [];
+
+    function enterEditMode() {
+        originalValues = Array.from(inputs).map(input => input.value);
+
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.classList.remove("bg-slate-50");
+            input.classList.add("bg-white", "border-blue-200");
+        });
+
+        viewButtons.classList.add("hidden");
+        editButtons.classList.remove("hidden");
+        editButtons.classList.add("flex");
+
+        if (inputs.length > 0) inputs[0].focus();
+    }
+
+    function exitEditMode() {
+        inputs.forEach((input, index) => {
+            input.value = originalValues[index];
+            input.disabled = true;
+            input.classList.add("bg-slate-50");
+            input.classList.remove("bg-white", "border-blue-200");
+        });
+
+        viewButtons.classList.remove("hidden");
+        editButtons.classList.add("hidden");
+        editButtons.classList.remove("flex");
+    }
+
+    btnEdit.addEventListener("click", enterEditMode);
+    btnCancel.addEventListener("click", exitEditMode);
+
+</script>

@@ -1,0 +1,235 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZôTreeStore - Xác thực OTP</title>
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+
+        .otp-container {
+            width: 100%;
+            max-width: 450px;
+            background: #fff;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            display: block;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: #0063a7;
+            text-decoration: none;
+            margin-bottom: 25px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .desc {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+            .desc strong {
+                color: #333;
+            }
+
+        .alert-error {
+            background: #ffe5e5;
+            color: #dc3545;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .alert-demo {
+            background: #fff8e5;
+            color: #8a6100;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+            .alert-demo b {
+                font-size: 20px;
+                letter-spacing: 4px;
+                display: block;
+                margin-top: 5px;
+            }
+
+        .otp-input {
+            width: 100%;
+            padding: 18px;
+            border: 1px solid #ddd;
+            border-radius: 14px;
+            outline: none;
+            background: #f8f9fa;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 10px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+            .otp-input:focus {
+                border-color: #0063a7;
+                background: #fff;
+                box-shadow: 0 0 0 4px rgba(0,99,167,0.08);
+            }
+
+        .btn-submit {
+            width: 100%;
+            border: none;
+            background: #0063a7;
+            color: #fff;
+            padding: 15px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 18px;
+            transition: 0.3s;
+        }
+
+            .btn-submit:hover {
+                background: #004d84;
+            }
+
+        .resend-row {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+        }
+
+            .resend-row a {
+                color: #0063a7;
+                font-weight: 700;
+                text-decoration: none;
+            }
+
+                .resend-row a:hover {
+                    text-decoration: underline;
+                }
+
+        .back-link {
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            color: #0063a7;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+            .back-link:hover {
+                text-decoration: underline;
+            }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="otp-container">
+
+        <a href="/" class="logo">ZôTreeStore</a>
+
+        <div class="title">Xác thực OTP</div>
+
+        <div class="desc">
+            Mã xác thực gồm 6 chữ số đã được gửi tới
+            <br />
+            <strong>@ViewBag.Identity</strong>
+        </div>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert-error">@ViewBag.Error</div>
+        }
+
+        @if (ViewBag.DemoOtp != null)
+        {
+            <div class="alert-demo">
+                [Chế độ demo] Chưa cấu hình gửi Email/SMS thật, mã OTP của bạn là:
+                <b>@ViewBag.DemoOtp</b>
+            </div>
+        }
+
+        <form asp-action="VerifyOtp" method="post">
+
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="identity" value="@ViewBag.Identity" />
+
+            <input type="text"
+                   name="otpCode"
+                   class="otp-input"
+                   placeholder="------"
+                   maxlength="6"
+                   inputmode="numeric"
+                   pattern="[0-9]*"
+                   autocomplete="one-time-code"
+                   required
+                   autofocus />
+
+            <button type="submit" class="btn-submit">
+                Xác nhận
+            </button>
+
+        </form>
+
+        <div class="resend-row">
+            Không nhận được mã?
+            <a asp-action="ForgotPassword">Gửi lại</a>
+        </div>
+
+        <a href="/Account/Login" class="back-link">
+            <i class='bx bx-left-arrow-alt'></i>
+            Quay lại Đăng nhập
+        </a>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+﻿@model List<BanHang.Models.Product>
+
+@{
+    ViewData["Title"] = "Linh kiện";
+    Layout = "_Layout";
+}
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #FBFBFC;
+    }
+
+    .hero-gradient {
+        background: linear-gradient(135deg, #EFF4FF 0%, #FDF4F8 100%);
+    }
+</style>
+
+
+
+<!-- HERO -->
+<section class="container mx-auto px-12 my-8">
+    <div class="hero-gradient rounded-[2.5rem] p-12 flex flex-col md:flex-row items-center justify-between">
+
+        <div class="md:w-1/2 space-y-4 max-w-lg">
+            <span class="text-[11px] font-bold text-blue-600 uppercase">
+                Tech Lab Selection
+            </span>
+
+            <h1 class="text-4xl font-extrabold">
+                Nâng cấp máy tính<br>của bạn
+            </h1>
+
+            <p class="text-slate-500 text-xs">
+                Khám phá linh kiện cao cấp tối ưu hiệu năng.
+            </p>
+        </div>
+
+        <div class="md:w-1/2 flex justify-end">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475"
+                 class="rounded-2xl w-full max-w-sm" />
+        </div>
+
+    </div>
+</section>
+
+<!-- MAIN -->
+<main class="container mx-auto px-12 py-8 flex flex-col md:flex-row gap-12">
+
+    <!-- SIDEBAR -->
+    <aside class="w-full md:w-1/5 space-y-8">
+
+        <h4 class="font-bold text-xs uppercase">Loại linh kiện</h4>
+
+        <div class="space-y-2 text-sm">
+
+            <label><input type="checkbox" /> RAM</label><br />
+            <label><input type="checkbox" /> SSD</label><br />
+            <label><input type="checkbox" /> GPU</label><br />
+            <label><input type="checkbox" /> CPU</label>
+
+        </div>
+
+    </aside>
+
+    <!-- PRODUCT GRID -->
+    <section class="flex-1">
+
+        <h2 class="text-lg font-bold mb-6">
+            Danh sách sản phẩm
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+
+                        <div class="h-44 flex items-center justify-center">
+                            <img src="@item.ImageUrl"
+                                 class="h-32 object-contain hover:scale-105 transition" />
+                        </div>
+
+                        <h3 class="font-bold text-sm mt-2">
+                            @item.Name
+                        </h3>
+
+                        <div class="flex justify-between items-center mt-4">
+
+                            <span class="text-blue-600 font-extrabold">
+                                @($"{item.Price:N0} đ")
+                            </span>
+
+                            <button class="bg-blue-50 w-8 h-8 rounded-full">
+                                🛒
+                            </button>
+
+                        </div>
+
+                    </div>
+                }
+            }
+            else
+            {
+                <p>Chưa có sản phẩm</p>
+            }
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-white border-t mt-20 py-10 text-center text-xs text-gray-400">
+    © 2026 ZôTreeStore
+</footer>

@@ -35,6 +35,24 @@ namespace BanHang.Controllers
         {
             return View();
         }
+        //linh kien
+        public IActionResult LinhKien()
+        {
+            var products = _context.Products.ToList();
+            return View("~/Views/LinhKien/Index.cshtml", products);
+        }
+
+        public IActionResult Laptop()
+        {
+            var products = _context.Products.ToList();
+            return View("~/Views/Laptop/Index.cshtml", products);
+        }
+
+        public IActionResult PhuKien()
+        {
+            var products = _context.Products.ToList();
+            return View("~/Views/PhuKien/Index.cshtml", products);
+        }
 
         // ================= ERROR =================
 

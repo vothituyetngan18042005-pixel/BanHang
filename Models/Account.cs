@@ -43,5 +43,20 @@ namespace BanHang.Models
 
         [NotMapped]
         public bool RememberMe { get; set; }
+
+        // ================= RESET PASSWORD (OTP) =================
+
+        // Mã OTP 6 số dùng để xác thực yêu cầu quên mật khẩu
+        public string? OtpCode { get; set; }
+
+        // Thời điểm hết hạn của OTP (mặc định 5 phút)
+        public DateTime? OtpExpiry { get; set; }
+
+        // Token dùng một lần để xác thực bước đặt lại mật khẩu
+        // (chỉ được cấp SAU KHI xác thực OTP thành công)
+        public string? ResetToken { get; set; }
+
+        // Thời điểm hết hạn của token (mặc định 15 phút)
+        public DateTime? ResetTokenExpiry { get; set; }
     }
 }

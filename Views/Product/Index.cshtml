@@ -1,0 +1,145 @@
+﻿    @model List<BanHang.Models.Product>
+
+    @{
+        ViewData["Title"] = "Danh sách sản phẩm";
+    }
+
+    <!DOCTYPE html>
+    <html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quản lý sản phẩm - ZôTreeStore</title>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+        <style>
+            body {
+                font-family: 'Inter',sans-serif;
+                background: #f8fafc;
+            }
+        </style>
+
+    </head>
+
+    <body>
+
+        <div class="max-w-7xl mx-auto py-10 px-6">
+
+            <!-- Tiêu đề -->
+            <div class="flex justify-between items-center mb-8">
+
+                <div>
+
+                    <h1 class="text-3xl font-bold text-blue-700">
+                        Quản lý sản phẩm
+                    </h1>
+
+                    <p class="text-gray-500 mt-2">
+                        Danh sách tất cả sản phẩm trong hệ thống
+                    </p>
+
+                </div>
+
+                <a asp-action="Create"
+                   class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold shadow">
+
+                    + Thêm sản phẩm
+
+                </a>
+
+            </div>
+
+            <!-- Bảng -->
+            <div class="bg-white rounded-3xl shadow overflow-hidden">
+
+                <table class="w-full">
+
+                    <thead class="bg-blue-600 text-white">
+
+                        <tr>
+
+                            <th class="p-4 text-left">ID</th>
+
+                            <th class="p-4 text-left">Hình ảnh</th>
+
+                            <th class="p-4 text-left">Tên sản phẩm</th>
+
+                            <th class="p-4 text-left">Giá</th>
+
+                            <th class="p-4 text-left">Mô tả</th>
+
+                            <th class="p-4 text-center">Thao tác</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr class="border-b hover:bg-gray-50">
+
+                                <td class="p-4">
+                                    @item.Id
+                                </td>
+
+                                <td class="p-4">
+
+                                    <img src="@item.ImageUrl"
+                                         class="w-20 h-20 rounded-xl object-cover border" />
+
+                                </td>
+
+                                <td class="p-4 font-semibold">
+                                    @item.Name
+                                </td>
+
+                                <td class="p-4 text-red-600 font-bold">
+                                    @item.Price.ToString("N0") đ
+                                </td>
+
+                                <td class="p-4 text-gray-500 max-w-xs">
+                                    @item.Description
+                                </td>
+
+                                <td class="p-4">
+
+                                    <div class="flex justify-center gap-2">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@item.Id"
+                                           class="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-2 rounded-lg">
+
+                                            Sửa
+
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@item.Id"
+                                           class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg">
+
+                                            Xóa
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </body>
+    </html>

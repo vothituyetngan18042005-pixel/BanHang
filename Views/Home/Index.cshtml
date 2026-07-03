@@ -1,7 +1,4 @@
-﻿@{
-    Layout = null;
-}
-
+﻿
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -23,66 +20,7 @@
 <body class="bg-[#FBFBFC] text-slate-900">
 
     <!-- NAVIGATION BAR -->
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
-        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
-            <div class="text-2xl font-extrabold text-blue-700 tracking-tight">ZôTreeStore</div>
-
-            <nav class="hidden lg:flex space-x-10 text-[13px] font-semibold uppercase tracking-widest text-gray-500">
-                <a href="#" class="hover:text-blue-600 transition-colors">Laptop</a>
-                <a href="#" class="hover:text-blue-600 transition-colors">Linh kiện</a>
-                <a href="#" class="hover:text-blue-600 transition-colors">Phụ kiện</a>
-                <a href="#" class="hover:text-blue-600 transition-colors">Hỗ trợ</a>
-            </nav>
-
-            <div class="flex items-center space-x-5">
-                <div class="relative hidden md:block">
-                    <input type="text" placeholder="Tìm kiếm sản phẩm..." class="bg-gray-100 rounded-full px-5 py-2 text-sm outline-none w-72 focus:ring-2 ring-blue-100 transition-all">
-                    <span class="absolute right-4 top-2 text-gray-400">🔍</span>
-                </div>
-                <button class="text-xl hover:text-blue-600">🛒</button>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="flex items-center gap-4">
-
-                        <span class="text-sm font-semibold text-gray-700">
-                            👋 @User.Identity.Name
-                        </span>
-
-                        <a asp-controller="Account"
-                           asp-action="Logout"
-                           class="bg-red-500 text-white px-4 py-2 rounded-xl text-sm hover:bg-red-600 transition">
-
-                            Đăng xuất
-
-                        </a>
-
-                    </div>
-                }
-                else
-                {
-                    <div class="flex items-center gap-3">
-
-                        <a asp-controller="Account"
-                           asp-action="Login"
-                           class="text-sm font-semibold hover:text-blue-600">
-
-                            Đăng nhập
-
-                        </a>
-
-                        <a asp-controller="Account"
-                           asp-action="Register"
-                           class="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm hover:bg-blue-700 transition">
-
-                            Đăng ký
-
-                        </a>
-
-                    </div>
-                }
-            </div>
-        </div>
-    </header>
+    
 
     <!-- HERO SECTION (Dựa trên image_57597d.png) -->
     <section class="hero-gradient overflow-hidden">
@@ -142,7 +80,7 @@
         </div>
     </section>
 
-    <!-- PROMO BANNER (Dựa trên image_5759a0.jpg) -->
+    <!-- PROMO BANNER  -->
     <section class="container mx-auto px-6 py-10">
         <div class="bg-[#0057B7] rounded-[2.5rem] p-12 flex flex-col md:flex-row justify-between items-center text-white relative overflow-hidden">
             <div class="z-10 text-center md:text-left">
