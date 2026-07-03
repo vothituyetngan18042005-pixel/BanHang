@@ -1,4 +1,9 @@
 ﻿@model List<BanHang.Models.Product>
+@{
+    var selectedBrand = ViewBag.SelectedBrand as string[] ?? Array.Empty<string>();
+    var selectedRam = ViewBag.SelectedRam as int[] ?? Array.Empty<int>();
+}
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -42,24 +47,114 @@
 
         <!-- SIDEBAR FILTER -->
         <aside class="w-full md:w-1/5 space-y-10">
-            <div>
-                <h4 class="font-bold text-[11px] uppercase tracking-[0.2em] mb-5 text-slate-400">THƯƠNG HIỆU</h4>
-                <div class="space-y-3 text-sm font-medium text-slate-600">
-                    <label class="flex items-center space-x-3 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-gray-300 text-blue-600"> <span>Apple</span></label>
-                    <label class="flex items-center space-x-3 cursor-pointer"><input type="checkbox" class="w-4 h-4 rounded border-gray-300"> <span>Dell</span></label>
-                    <label class="flex items-center space-x-3 cursor-pointer"><input type="checkbox" class="w-4 h-4 rounded border-gray-300"> <span>HP</span></label>
-                    <label class="flex items-center space-x-3 cursor-pointer"><input type="checkbox" class="w-4 h-4 rounded border-gray-300"> <span>ASUS</span></label>
+
+            <form asp-action="Laptop" asp-controller="Home" method="get" id="filterForm">
+
+                <!-- THƯƠNG HIỆU -->
+                <div>
+                    <h4 class="font-bold text-[11px] uppercase tracking-[0.2em] mb-5 text-slate-400">
+                        THƯƠNG HIỆU
+                    </h4>
+
+                    <div class="space-y-3 text-sm font-medium text-slate-600">
+
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox"
+                                   name="brand"
+                                   value="Apple"
+                                   onchange="this.form.submit()"
+                                   @(selectedBrand.Contains("Apple") ? "checked" : "") />
+                            <span>Apple</span>
+                        </label>
+
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox"
+                                   name="brand"
+                                   value="Dell"
+                                   onchange="this.form.submit()"
+                                   @(selectedBrand.Contains("Dell") ? "checked" : "") />
+                            <span>Dell</span>
+                        </label>
+
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox"
+                                   name="brand"
+                                   value="HP"
+                                   onchange="this.form.submit()"
+                                   @(selectedBrand.Contains("HP") ? "checked" : "") />
+                            <span>HP</span>
+                        </label>
+
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox"
+                                   name="brand"
+                                   value="ASUS"
+                                   onchange="this.form.submit()"
+                                   @(selectedBrand.Contains("ASUS") ? "checked" : "") />
+                            <span>ASUS</span>
+                        </label>
+
+                    </div>
                 </div>
-            </div>
-            <div>
-                <h4 class="font-bold text-[11px] uppercase tracking-[0.2em] mb-5 text-slate-400">RAM</h4>
-                <div class="grid grid-cols-2 gap-2">
-                    <button class="border border-gray-200 py-2 rounded-lg text-[11px] font-bold hover:border-blue-600">8GB</button>
-                    <button class="bg-blue-700 text-white py-2 rounded-lg text-[11px] font-bold">16GB</button>
-                    <button class="border border-gray-200 py-2 rounded-lg text-[11px] font-bold hover:border-blue-600">32GB</button>
-                    <button class="border border-gray-200 py-2 rounded-lg text-[11px] font-bold hover:border-blue-600">64GB</button>
+
+                <!-- RAM -->
+                <div>
+                    <h4 class="font-bold text-[11px] uppercase tracking-[0.2em] mb-5 text-slate-400">
+                        RAM
+                    </h4>
+
+                    <div class="space-y-3 text-sm font-medium text-slate-600">
+
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox"
+                                   name="ram"
+                                   value="8"
+                                   onchange="this.form.submit()"
+                                   @(selectedRam.Contains(8) ? "checked" : "") />
+                            <span>8 GB</span>
+                        </label>
+
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox"
+                                   name="ram"
+                                   value="16"
+                                   onchange="this.form.submit()"
+                                   @(selectedRam.Contains(16) ? "checked" : "") />
+                            <span>16 GB</span>
+                        </label>
+
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox"
+                                   name="ram"
+                                   value="32"
+                                   onchange="this.form.submit()"
+                                   @(selectedRam.Contains(32) ? "checked" : "") />
+                            <span>32 GB</span>
+                        </label>
+
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="checkbox"
+                                   name="ram"
+                                   value="64"
+                                   onchange="this.form.submit()"
+                                   @(selectedRam.Contains(64) ? "checked" : "") />
+                            <span>64 GB</span>
+                        </label>
+
+                    </div>
                 </div>
-            </div>
+
+                @if (selectedBrand.Any() || selectedRam.Any())
+                {
+                    <a asp-action="Laptop"
+                       asp-controller="Home"
+                       class="inline-block mt-5 text-blue-600 text-sm font-semibold hover:underline">
+                        ✕ Xóa bộ lọc
+                    </a>
+                }
+
+            </form>
+
         </aside>
 
         <!-- PRODUCT GRID -->

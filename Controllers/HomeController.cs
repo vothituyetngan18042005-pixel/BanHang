@@ -35,23 +35,67 @@ namespace BanHang.Controllers
         {
             return View();
         }
-        //linh kien
-        public IActionResult LinhKien()
+        // ================= LINH KIỆN =================
+
+        public IActionResult LinhKien(string[] type)
         {
-            var products = _context.Products.ToList();
-            return View("~/Views/LinhKien/Index.cshtml", products);
+            var query = _context.Products
+                .Where(x => x.Category == "LinhKien");
+
+            if (type != null && type.Any())
+            {
+                query = query.Where(x => type.Contains(x.Type));
+            }
+
+            ViewBag.SelectedTypes = type ?? Array.Empty<string>();
+
+            return View("~/Views/LinhKien/Index.cshtml", query.ToList());
         }
 
-        public IActionResult Laptop()
+        // ================= LAPTOP =================
+
+        public IActionResult Laptop(string[] brand, int[] ram)
         {
-            var products = _context.Products.ToList();
-            return View("~/Views/Laptop/Index.cshtml", products);
+            var query = _context.Products
+                .Where(x => x.Category == "Laptop");
+
+            if (brand != null && brand.Any())
+            {
+                query = query.Where(x => brand.Contains(x.Brand));
+            }
+
+            if (ram != null && ram.Any())
+            {
+                query = query.Where(x => x.Ram.HasValue && ram.Contains(x.Ram.Value));
+            }
+
+            ViewBag.SelectedBrand = brand ?? Array.Empty<string>();
+            ViewBag.SelectedRam = ram ?? Array.Empty<int>();
+
+            return View("~/Views/Laptop/Index.cshtml", query.ToList());
         }
 
-        public IActionResult PhuKien()
+        // ================= PHỤ KIỆN =================
+
+        public IActionResult PhuKien(string[] accessoryType, string[] brand)
         {
-            var products = _context.Products.ToList();
-            return View("~/Views/PhuKien/Index.cshtml", products);
+            var query = _context.Products
+                .Where(x => x.Category == "PhuKien");
+
+            if (accessoryType != null && accessoryType.Any())
+            {
+                query = query.Where(x => accessoryType.Contains(x.AccessoryType));
+            }
+
+            if (brand != null && brand.Any())
+            {
+                query = query.Where(x => brand.Contains(x.Brand));
+            }
+
+            ViewBag.SelectedAccessoryTypes = accessoryType ?? Array.Empty<string>();
+            ViewBag.SelectedBrands = brand ?? Array.Empty<string>();
+
+            return View("~/Views/PhuKien/Index.cshtml", query.ToList());
         }
 
         // ================= ERROR =================

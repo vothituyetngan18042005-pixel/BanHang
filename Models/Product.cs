@@ -18,5 +18,14 @@ namespace BanHang.Models
         public string? Description { get; set; }
 
         public string Category { get; set; } // Laptop / LinhKien / PhuKien
+        public string? Type { get; set; }
+        public string? Brand { get; set; }     // ASUS, MSI, Acer, Dell...
+
+        public int? Ram { get; set; }          // 8, 16, 32 (GB)     
+
+        public string? AccessoryType { get; set; } // Chuot, BanPhim, TaiNghe...
+
+
+
     }
 }

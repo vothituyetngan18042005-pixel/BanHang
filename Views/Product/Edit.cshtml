@@ -12,57 +12,111 @@
 
     <form asp-action="Edit">
 
-        <input asp-for="Id" hidden />
+        <input asp-for="Id" type="hidden" />
 
+        <!-- Tên -->
         <div class="mb-5">
-
-            <label class="font-semibold">
-                Tên sản phẩm
-            </label>
-
+            <label asp-for="Name" class="font-semibold"></label>
             <input asp-for="Name"
-                   class="w-full border rounded-xl p-3 mt-2">
-
+                   class="w-full border rounded-xl p-3 mt-2" />
+            <span asp-validation-for="Name" class="text-red-500"></span>
         </div>
 
+        <!-- Giá -->
         <div class="mb-5">
-
-            <label class="font-semibold">
-                Giá
-            </label>
-
+            <label asp-for="Price" class="font-semibold"></label>
             <input asp-for="Price"
-                   class="w-full border rounded-xl p-3 mt-2">
-
+                   class="w-full border rounded-xl p-3 mt-2" />
+            <span asp-validation-for="Price" class="text-red-500"></span>
         </div>
 
+        <!-- Hình -->
         <div class="mb-5">
-
-            <label class="font-semibold">
-                Link hình
+            <label asp-for="ImageUrl" class="font-semibold">
+                Link hình ảnh
             </label>
 
             <input asp-for="ImageUrl"
-                   class="w-full border rounded-xl p-3 mt-2">
+                   class="w-full border rounded-xl p-3 mt-2" />
 
+            <span asp-validation-for="ImageUrl"
+                  class="text-red-500"></span>
         </div>
 
+        <!-- Mô tả -->
         <div class="mb-5">
-
-            <label class="font-semibold">
-                Mô tả
+            <label asp-for="Description"
+                   class="font-semibold">
             </label>
 
             <textarea asp-for="Description"
                       rows="5"
                       class="w-full border rounded-xl p-3 mt-2"></textarea>
 
+            <span asp-validation-for="Description"
+                  class="text-red-500"></span>
         </div>
 
+        <!-- Danh mục -->
+        <div class="mb-5">
+            <label class="font-semibold">
+                Danh mục
+            </label>
+
+            <select asp-for="Category"
+                    class="w-full border rounded-xl p-3 mt-2">
+
+                <option value="Laptop">Laptop</option>
+                <option value="LinhKien">Linh kiện</option>
+                <option value="PhuKien">Phụ kiện</option>
+
+            </select>
+        </div>
+
+        <!-- Hãng -->
+        <div class="mb-5">
+            <label class="font-semibold">
+                Hãng
+            </label>
+
+            <select asp-for="Brand"
+                    class="w-full border rounded-xl p-3 mt-2">
+
+                <option value="">-- Chọn hãng --</option>
+                <option value="Apple">Apple</option>
+                <option value="ASUS">ASUS</option>
+                <option value="Acer">Acer</option>
+                <option value="Dell">Dell</option>
+                <option value="HP">HP</option>
+                <option value="Lenovo">Lenovo</option>
+                <option value="MSI">MSI</option>
+
+            </select>
+        </div>
+
+        <!-- RAM -->
+        <div class="mb-5">
+            <label class="font-semibold">
+                RAM
+            </label>
+
+            <select asp-for="Ram"
+                    class="w-full border rounded-xl p-3 mt-2">
+
+                <option value="">-- Chọn RAM --</option>
+                <option value="8">8 GB</option>
+                <option value="16">16 GB</option>
+                <option value="32">32 GB</option>
+                <option value="64">64 GB</option>
+
+            </select>
+        </div>
+
+        <!-- Nút -->
         <div class="flex justify-end gap-3">
 
             <a asp-action="Index"
-               class="px-6 py-3 rounded-xl bg-gray-300">
+               class="px-6 py-3 rounded-xl bg-gray-300 hover:bg-gray-400">
 
                 Quay lại
 
@@ -80,3 +134,9 @@
     </form>
 
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

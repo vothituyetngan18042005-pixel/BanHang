@@ -79,12 +79,29 @@
                         </label>
 
                         <select asp-for="Category"
+                                id="category"
                                 class="mt-2 w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none">
 
                             <option value="Laptop">Laptop</option>
                             <option value="LinhKien">Linh kiện</option>
                             <option value="PhuKien">Phụ kiện</option>
 
+                        </select>
+
+                    </div>
+                    <!-- Hãng -->
+                    <div id="brandBox">
+
+                        <label class="font-semibold text-gray-700">
+                            Hãng
+                        </label>
+
+                        <select asp-for="Brand"
+                                id="brand"
+                                class="mt-2 w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none">
+
+                            <option value="">-- Chọn hãng --</option>
+                            
                         </select>
 
                     </div>
@@ -98,6 +115,63 @@
 
                         <input asp-for="ImageUrl"
                                class="mt-2 w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none">
+
+                    </div>
+                    <!-- RAM -->
+                    <div id="ramBox">
+
+                        <label class="font-semibold text-gray-700">
+                            RAM
+                        </label>
+
+                        <select asp-for="Ram"
+                                class="mt-2 w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none">
+
+                            <option value="">-- Chọn RAM --</option>
+                            <option value="8">8 GB</option>
+                            <option value="16">16 GB</option>
+                            <option value="32">32 GB</option>
+                            <option value="64">64 GB</option>
+
+                        </select>
+
+                    </div>
+                    <!-- LINH KIỆN -->
+                    <div id="typeBox">
+
+                        <label class="font-semibold text-gray-700">
+                            Loại linh kiện
+                        </label>
+
+                        <select asp-for="Type"
+                                class="mt-2 w-full border rounded-xl px-4 py-3">
+
+                            <option value="">-- Chọn --</option>
+                            <option value="RAM">RAM</option>
+                            <option value="SSD">SSD</option>
+                            <option value="CPU">CPU</option>
+                            <option value="GPU">GPU</option>
+
+                        </select>
+
+                    </div>
+                    <!-- PHỤ KIỆN -->
+                    <div id="accessoryBox">
+
+                        <label class="font-semibold text-gray-700">
+                            Loại phụ kiện
+                        </label>
+
+                        <select asp-for="AccessoryType"
+                                class="mt-2 w-full border rounded-xl px-4 py-3">
+
+                            <option value="">-- Chọn --</option>
+                            <option value="Chuot">Chuột</option>
+                            <option value="BanPhim">Bàn phím</option>
+                            <option value="TaiNghe">Tai nghe</option>
+                            <option value="Loa">Loa</option>
+
+                        </select>
 
                     </div>
 
@@ -139,6 +213,70 @@
         </div>
 
     </div>
+    <script>
 
+        const category = document.getElementById("category");
+
+        const brandBox = document.getElementById("brandBox");
+        const ramBox = document.getElementById("ramBox");
+        const typeBox = document.getElementById("typeBox");
+        const accessoryBox = document.getElementById("accessoryBox");
+
+                function showFields() {
+
+            const brand = document.getElementById("brand");
+
+            if (category.value == "Laptop") {
+
+                brandBox.style.display = "block";
+                ramBox.style.display = "block";
+                typeBox.style.display = "none";
+                accessoryBox.style.display = "none";
+
+                brand.innerHTML = `
+                    <option value="">-- Chọn hãng --</option>
+                    <option value="Apple">Apple</option>
+                    <option value="ASUS">ASUS</option>
+                    <option value="Acer">Acer</option>
+                    <option value="Dell">Dell</option>
+                    <option value="HP">HP</option>
+                    <option value="Lenovo">Lenovo</option>
+                    <option value="MSI">MSI</option>
+                `;
+            }
+
+            else if (category.value == "LinhKien") {
+
+                brandBox.style.display = "block";
+                ramBox.style.display = "none";
+                typeBox.style.display = "block";
+                accessoryBox.style.display = "none";
+
+                brand.innerHTML = `
+                    <option value="">-- Chọn hãng --</option>
+                    <option value="Kingston">Kingston</option>
+                    <option value="Samsung">Samsung</option>
+                    
+                `;
+            }
+
+            else if (category.value == "PhuKien") {
+
+                brandBox.style.display = "block";
+                ramBox.style.display = "none";
+                typeBox.style.display = "none";
+                accessoryBox.style.display = "block";
+
+                brand.innerHTML = `
+                    <option value="">-- Chọn hãng --</option>
+                    <option value="Logitech">Logitech</option>
+                    <option value="Razer">Razer</option>
+                `;
+            }
+        }
+        showFields();
+
+            category.addEventListener("change", showFields);
+    </script>    
 </body>
 </html>
